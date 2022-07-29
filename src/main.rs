@@ -5,7 +5,7 @@ use bevy_road_crossing::GamePlugin;
 
 fn main() {
     App::new()
-        .insert_resource(ClearColor(Color::rgb(1., 1., 1.)))
+        .insert_resource(ClearColor(Color::rgb(0., 0., 0.)))
         .insert_resource(WindowDescriptor {
             width: 800.,
             height: 600.,

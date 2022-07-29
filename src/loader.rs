@@ -8,6 +8,7 @@ impl Plugin for LoaderPlugin {
     fn build(&self, app: &mut App) {
         AssetLoader::new(GameState::Loading)
             .with_collection::<FontAssets>()
+            .with_collection::<SpriteAssets>()
             .continue_to_state(GameState::Menu)
             .build(app);
     }
@@ -15,8 +16,14 @@ impl Plugin for LoaderPlugin {
 
 #[derive(AssetCollection)]
 pub struct FontAssets {
-    #[asset(path = "fonts/RobotoBold.ttf")]
+    #[asset(path = "fonts/roboto_bold.ttf")]
     pub roboto_bold: Handle<Font>,
-    #[asset(path = "fonts/Roboto.ttf")]
+    #[asset(path = "fonts/roboto.ttf")]
     pub roboto_regular: Handle<Font>,
+}
+
+#[derive(AssetCollection)]
+pub struct SpriteAssets {
+    #[asset(path = "sprites/square.png")]
+    pub square: Handle<Image>,
 }

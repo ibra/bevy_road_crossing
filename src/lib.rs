@@ -2,8 +2,7 @@ mod loader;
 mod menu;
 mod player;
 
-use bevy::prelude::*;
-
+use bevy::prelude::{App, Plugin};
 use loader::LoaderPlugin;
 use menu::MenuPlugin;
 use player::PlayerPlugin;
