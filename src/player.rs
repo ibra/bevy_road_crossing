@@ -1,6 +1,5 @@
 use crate::{loader::SpriteAssets, GameState};
 use bevy::prelude::*;
-use leafwing_input_manager::prelude::*;
 
 pub struct PlayerPlugin;
 
@@ -20,14 +19,6 @@ pub struct Player {
     speed: f32,
 }
 
-#[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug)]
-enum Action {
-    Up,
-    Down,
-    Left,
-    Right,
-}
-
 fn spawn_player(mut commands: Commands, textures: Res<SpriteAssets>) {
     commands
         .spawn_bundle(SpriteBundle {
@@ -39,15 +30,39 @@ fn spawn_player(mut commands: Commands, textures: Res<SpriteAssets>) {
             transform: Transform::from_translation(Vec3::new(0., 0., 1.)),
             ..Default::default()
         })
-        .insert_bundle(InputManagerBundle::<Action> {
-            action_state: ActionState::default(),
-            input_map: InputMap::new([(KeyCode::Up, Action::Up), (KeyCode::Down, Action::Down)]),
-        })
-        .insert(Player { speed: 4. });
+        .insert(Player { speed: 500. });
 }
 
 fn spawn_camera(mut commands: Commands) {
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 }
 
-fn move_player(time: Res<Time>) {}
+fn move_player(
+    time: Res<Time>,
+    keyboard_input: Res<Input<KeyCode>>,
+    mut query: Query<(&Player, &mut Transform)>,
+) {
+    for (player, mut transform) in query.iter_mut() {
+        let mut direction = Vec2::new(0., 0.);
+
+        if keyboard_input.just_pressed(KeyCode::A) {
+            direction.x -= 1.;
+        }
+        if keyboard_input.just_pressed(KeyCode::D) {
+            direction.x += 1.;
+        }
+        if keyboard_input.just_pressed(KeyCode::W) {
+            direction.y += 1.;
+        }
+        if keyboard_input.just_pressed(KeyCode::S) {
+            direction.y -= 1.;
+        }
+
+        let translation = &mut transform.translation;
+        translation.x += time.delta_seconds() * direction.x * player.speed;
+        translation.y += time.delta_seconds() * direction.y * player.speed;
+
+        translation.x = translation.x.min(380.0).max(-380.0);
+        translation.y = translation.y.min(480.0).max(-480.0);
+    }
+}
