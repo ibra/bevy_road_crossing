@@ -7,7 +7,6 @@ edition = "2021"
 [dependencies]
 bevy = { version = "0.7.0", features = ["dynamic"] }
 bevy_asset_loader = "0.11.0"
-leafwing-input-manager = "0.4.1"
 
 
 # Enable a small amount of optimization in debug mode
