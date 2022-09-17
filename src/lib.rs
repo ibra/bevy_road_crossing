@@ -1,8 +1,11 @@
+mod interface;
 mod loader;
 mod menu;
 mod player;
 
 use bevy::prelude::{App, Plugin};
+
+use interface::GameInterfacePlugin;
 use loader::LoaderPlugin;
 use menu::MenuPlugin;
 use player::PlayerPlugin;
@@ -21,6 +24,7 @@ impl Plugin for GamePlugin {
         app.add_state(GameState::Loading)
             .add_plugin(LoaderPlugin)
             .add_plugin(MenuPlugin)
-            .add_plugin(PlayerPlugin);
+            .add_plugin(PlayerPlugin)
+            .add_plugin(GameInterfacePlugin);
     }
 }

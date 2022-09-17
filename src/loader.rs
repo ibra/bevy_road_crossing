@@ -1,16 +1,20 @@
 use crate::GameState;
 use bevy::prelude::*;
-use bevy_asset_loader::{AssetCollection, AssetLoader};
+use bevy_asset_loader::{
+    asset_collection::*,
+    prelude::{LoadingState, LoadingStateAppExt},
+};
 
 pub struct LoaderPlugin;
 
 impl Plugin for LoaderPlugin {
     fn build(&self, app: &mut App) {
-        AssetLoader::new(GameState::Loading)
-            .with_collection::<FontAssets>()
-            .with_collection::<SpriteAssets>()
-            .continue_to_state(GameState::Menu)
-            .build(app);
+        app.add_loading_state(
+            LoadingState::new(GameState::Loading)
+                .with_collection::<FontAssets>()
+                .with_collection::<SpriteAssets>()
+                .continue_to_state(GameState::Menu),
+        );
     }
 }
 

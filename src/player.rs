@@ -5,12 +5,8 @@ pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_system_set(
-            SystemSet::on_enter(GameState::Playing)
-                .with_system(spawn_player)
-                .with_system(spawn_camera),
-        )
-        .add_system(move_player);
+        app.add_system_set(SystemSet::on_enter(GameState::Playing).with_system(spawn_player))
+            .add_system(move_player);
     }
 }
 
@@ -33,10 +29,6 @@ fn spawn_player(mut commands: Commands, textures: Res<SpriteAssets>) {
         .insert(Player { speed: 500. });
 }
 
-fn spawn_camera(mut commands: Commands) {
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
-}
-
 fn move_player(
     time: Res<Time>,
     keyboard_input: Res<Input<KeyCode>>,
@@ -53,9 +45,6 @@ fn move_player(
         }
         if keyboard_input.just_pressed(KeyCode::W) {
             direction.y += 1.;
-        }
-        if keyboard_input.just_pressed(KeyCode::S) {
-            direction.y -= 1.;
         }
 
         let translation = &mut transform.translation;
