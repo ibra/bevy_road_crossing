@@ -1,7 +1,7 @@
 use crate::loader::FontAssets;
 use crate::GameState;
 use bevy::prelude::*;
-use bevy::text::{Text, TextSection, TextStyle};
+use bevy::text::TextStyle;
 
 pub struct GameInterfacePlugin;
 
