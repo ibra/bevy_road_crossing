@@ -12,7 +12,7 @@ impl Plugin for PlayerPlugin {
 
 #[derive(Component)]
 pub struct Player {
-    speed: f32,
+    move_step: f32,
 }
 
 fn spawn_player(mut commands: Commands, textures: Res<SpriteAssets>) {
@@ -26,7 +26,7 @@ fn spawn_player(mut commands: Commands, textures: Res<SpriteAssets>) {
             transform: Transform::from_translation(Vec3::new(0., 0., 1.)),
             ..Default::default()
         })
-        .insert(Player { speed: 500. });
+        .insert(Player { move_step: 2. });
 }
 
 fn move_player(
@@ -38,18 +38,18 @@ fn move_player(
         let mut direction = Vec2::new(0., 0.);
 
         if keyboard_input.just_pressed(KeyCode::A) {
-            direction.x -= 1.;
+            direction.x -= player.move_step;
         }
         if keyboard_input.just_pressed(KeyCode::D) {
-            direction.x += 1.;
+            direction.x += player.move_step;
         }
         if keyboard_input.just_pressed(KeyCode::W) {
-            direction.y += 1.;
+            direction.y += player.move_step;
         }
 
         let translation = &mut transform.translation;
-        translation.x += time.delta_seconds() * direction.x * player.speed;
-        translation.y += time.delta_seconds() * direction.y * player.speed;
+        translation.x += time.delta_seconds() * direction.x * player.move_step;
+        translation.y += time.delta_seconds() * direction.y * player.move_step;
 
         translation.x = translation.x.min(380.0).max(-380.0);
         translation.y = translation.y.min(480.0).max(-480.0);
